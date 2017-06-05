@@ -1,0 +1,22 @@
+name: secrets
+version: 0.1.0
+
+authors:
+  - Matt <matthewjones@bennington.edu>
+
+targets:
+  secrets:
+    main: src/secrets.cr
+
+dependencies:
+    db:
+        github: crystal-lang/crystal-db
+    kemal:
+        github: kemalcr/kemal
+        branch: master
+    sqlite3:
+        github: crystal-lang/crystal-sqlite3
+
+crystal: 0.22.0
+
+license: MIT
