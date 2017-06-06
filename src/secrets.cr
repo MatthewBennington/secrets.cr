@@ -69,4 +69,13 @@ get "/secret" do |env|
 	end
 end
 
+get "/stats" do |env|
+	comments_q = SQLite.query_all "SELECT * FROM comments;", as: String
+	posts_q = SQLite.query_all "SELECT * FROM posts;", as: String
+
+	comments_num = comments_q.size
+	posts_num = posts_q.size
+	render "src/views/stats.html.ecr", "src/views/layout.html.ecr"
+end
+
 Kemal.run
