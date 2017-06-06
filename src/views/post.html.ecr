@@ -1,1 +1,7 @@
 <%= body %>
+<a href="/secret/<%= link %>">permalink</a>
+<form action="/comment" method="post">
+	<input type="text" name="text" value="test"><br>
+	<input type="hidden" name="parent" value="<%= link %>">
+	<input type="submit" value="Submit">
+</form>
