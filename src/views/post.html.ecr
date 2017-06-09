@@ -1,7 +1,16 @@
-<%= body %>
-<a href="/secret/<%= link %>">permalink</a>
-<form action="/comment" method="post">
-	<input type="text" name="text" value="test"><br>
-	<input type="hidden" name="parent" value="<%= link %>">
-	<input type="submit" value="Submit">
-</form>
+<div class="post">
+	<pre><%= body %></pre>
+	<a href="/secret/<%= link %>" class="small">permalink</a>
+	<div class="comments">
+	<ul class="list-group">
+	<%- comments.each do |comment| -%>
+		<li class="list-group-item"><%= comment %></li>
+	<%end%>
+	</ul>
+	</div>
+	<form action="/comment" method="post">
+		<input type="text" name="text" placeholder="comment" class="form-control"><br>
+		<input type="hidden" name="parent" value="<%= link %>">
+		<input type="submit" value="Submit" class="pull-right btn btn-success">
+	</form>
+</div>

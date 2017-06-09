@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Secrets</title>
-  <link rel="stylesheet" href="stylesheet.css" type="text/css">
+	<link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
   </head>
   <body>
   <header id="header">
-  	<ul>
-	  <li><a href="/">Home</a></li>
-	  <li><a href="/secret">View a secret</a></li>
-	  <li><a href="/stats">Statistics</a></li>
-	</ul>
+  	<div class="navbar navbar-default">
+		<ul class="nav navbar-nav">
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/secret">View a secret</a></li>
+		  <li><a href="/stats">Statistics</a></li>
+		</ul>
+		</div>
   </header>
+  <div style="max-width: 730px" class="center-block jumbotron container">
   	<%= content %>
+  </div>
   </body>
 </html>
 
