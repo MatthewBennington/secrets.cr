@@ -70,7 +70,7 @@ get "/secret" do |env|
 end
 
 get "/stats" do |env|
-	comments_q = SQLite.query_all "SELECT * FROM comments;", as: String
+	comments_q = SQLite.query_all "SELECT * FROM comments;", as: Int64
 	posts_q = SQLite.query_all "SELECT * FROM posts;", as: String
 
 	comments_num = comments_q.size
