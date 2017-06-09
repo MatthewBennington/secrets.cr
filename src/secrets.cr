@@ -9,16 +9,11 @@ at_exit { SQLite.close }
 
 def store_post(text)
 	hash = Digest::SHA1.digest(text).map(&.to_s(16)).join
-	SQLite.exec "INSERT OR IGNORE INTO posts VALUES ( " \
-				"'#{hash}', " \
-				"'#{text}');"
+	SQLite.exec "INSERT OR IGNORE INTO posts VALUES ( ?, ?);", [hash, text]
 end
 
 def store_comment(parent_hash, text)
-	SQLite.exec "INSERT INTO comments (parent, content, date) VALUES ( " \
-				"'#{parent_hash}', " \
-				"'#{text}', " \
-				"#{Time.now.epoch});"
+	SQLite.exec "INSERT INTO comments (parent, content, date) VALUES ( ?, ?, ?);", [parent_hash, text, Time.now.epoch]
 end
 
 def get_comments(hash : String) : Array(String) | Nil
