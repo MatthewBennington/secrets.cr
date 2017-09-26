@@ -9,7 +9,7 @@
 	</ul>
 	</div>
 	<form action="/comment" method="post">
-		<input type="text" name="text" placeholder="comment" class="form-control"><br>
+		<input type="text" name="text" placeholder="comment" class="form-control" required><br>
 		<input type="hidden" name="parent" value="<%= link %>">
 		<input type="submit" value="Submit" class="pull-right btn btn-success">
 	</form>

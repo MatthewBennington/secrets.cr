@@ -3,17 +3,20 @@ require "kemal"
 require "db"
 require "sqlite3"
 require "Digest"
+require "html"
 
 SQLite = DB.open "sqlite3:./db/secrets.db"
 at_exit { SQLite.close }
 
 def store_post(text)
-	hash = Digest::SHA1.digest(text).map(&.to_s(16)).join
-	SQLite.exec "INSERT OR IGNORE INTO posts VALUES ( ?, ?);", [hash, text]
+    clean_text = HTML.escape(text)
+	hash = Digest::SHA1.digest(clean_text).map(&.to_s(16)).join
+	SQLite.exec "INSERT OR IGNORE INTO posts VALUES ( ?, ?);", [hash, clean_text]
 end
 
 def store_comment(parent_hash, text)
-	SQLite.exec "INSERT INTO comments (parent, content, date) VALUES ( ?, ?, ?);", [parent_hash, text, Time.now.epoch]
+    clean_text = HTML.escape(text)
+	SQLite.exec "INSERT INTO comments (parent, content, date) VALUES ( ?, ?, ?);", [parent_hash, clean_text, Time.now.epoch]
 end
 
 def get_comments(hash : String) : Array(String) | Nil
@@ -26,9 +29,13 @@ end
 
 post "/post" do |env|
 	body =  env.params.body["post-body"]
-	puts "Secret posted: " + body
-	store_post body
-	env.redirect "/"
+    if body == ""
+        env.response.status_code = 422
+    else
+        puts "Secret posted: " + body
+        store_post body
+        env.redirect "/"
+    end
 end
 
 post "/comment" do |env|
@@ -55,7 +62,7 @@ end
 get "/secret" do |env|
 	q = SQLite.query_one?("SELECT * FROM posts ORDER BY RANDOM() LIMIT 1;", as: {String, String})
 	if q.nil?
-		env.redirect "/"
+        env.redirect "/no_secrets.html"
 	else
 		link = q[0]
 		body = q[1]
